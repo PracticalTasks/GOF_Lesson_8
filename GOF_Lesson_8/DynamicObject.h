@@ -8,6 +8,9 @@ class DynamicObject : public GameObject
 {
 public:
     DynamicObject() : speed(0.0), xDirction(0.0), yDirection(0) { }
+    virtual ~DynamicObject() {};
+
+    virtual DynamicObject* clone() = 0;
 
     void SetSpeed(double sp) { speed = sp; }
     void SetDirection(double dx, double dy) { xDirction = dx; yDirection = dy; }

@@ -362,6 +362,13 @@ void SBomber::DropBomb()
         pBomb->SetPos(x, y);
         pBomb->SetWidth(SMALL_CRATER_SIZE);
 
+        shared_ptr<Bomb> pBombClone(pBomb->clone());
+        pBombClone->SetPos(x + 2, y);
+        
+        vecDynamicObj.push_back(pBombClone);
+        bombsNumber--;
+        score -= Bomb::BombCost;
+
         vecDynamicObj.push_back(pBomb);
         bombsNumber--;
         score -= Bomb::BombCost;

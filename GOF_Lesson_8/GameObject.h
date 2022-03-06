@@ -1,8 +1,10 @@
 #pragma once
 
-class GameObject {
+class GameObject
+{
 public:
-    GameObject() : x(0.0), y(0.0), width(0) { }
+    GameObject() : x(0.0), y(0.0), width(0){ }
+    virtual ~GameObject() {};
 
     virtual void Draw() const = 0;
 
@@ -18,4 +20,5 @@ protected:
     double x;
     double y;
     uint16_t width;
+
 };
