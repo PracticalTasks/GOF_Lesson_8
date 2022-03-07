@@ -2,6 +2,7 @@
 #include"DynamicObject.h"
 #include<memory>
 #include<iostream>
+#include"MyTools.h"
 
 class TreeState;
 class SmallTree;

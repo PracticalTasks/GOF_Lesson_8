@@ -12,6 +12,8 @@ void Tree::Move(uint16_t time)
 
 void Tree::Draw() const
 {
+	MyTools::ScreenSingleton::getInstance().SetColor(MyTools::CC_LightBlue);
+	MyTools::ScreenSingleton::getInstance().GotoXY(x, y);
 	treeState->Draw();
 }
 

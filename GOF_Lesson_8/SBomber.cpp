@@ -30,10 +30,6 @@ SBomber::SBomber()
     p->SetPos(5, 10);
     vecDynamicObj.push_back(p);
 
-    std::shared_ptr<Tree> pTree(new Tree);
-    pTree->SetPos(7,3);
-    vecDynamicObj.push_back(pTree);
-
     shared_ptr<LevelGUI> pGUI(new LevelGUI);
     pGUI->SetParam(passedTime, fps, bombsNumber, score);
     const uint16_t maxX = ScreenSingleton::getInstance().GetMaxX();
@@ -51,6 +47,11 @@ SBomber::SBomber()
     pGr->SetPos(offset + 1, groundY);
     pGr->SetWidth(width - 2);
     vecStaticObj.push_back(pGr);
+
+    std::shared_ptr<Tree> pTree(new Tree);
+    pTree->SetWidth(13);
+    pTree->SetPos(25, groundY - 1);
+    vecDynamicObj.push_back(pTree);
 
     shared_ptr<Tank> pTank(new Tank);
     pTank->SetWidth(13);
