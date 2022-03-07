@@ -28,7 +28,11 @@ SBomber::SBomber()
     p->SetDirection(1, 0.1);
     p->SetSpeed(4);
     p->SetPos(5, 10);
-    vecDynamicObj.push_back(std::move(p));
+    vecDynamicObj.push_back(p);
+
+    std::shared_ptr<Tree> pTree(new Tree);
+    pTree->SetPos(7,3);
+    vecDynamicObj.push_back(pTree);
 
     shared_ptr<LevelGUI> pGUI(new LevelGUI);
     pGUI->SetParam(passedTime, fps, bombsNumber, score);

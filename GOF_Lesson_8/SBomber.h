@@ -8,6 +8,7 @@
 #include"Bomb.h"
 #include"Ground.h"
 #include"Tank.h"
+#include"Tree.h"
 
 class SBomber
 {
