@@ -20,7 +20,8 @@ SBomber::SBomber()
     passedTime(0),
     fps(0),
     bombsNumber(10),
-    score(0)
+    score(0),
+    stateTime(0)
 {
 	FileLoggerSingleton::getInstance().WriteToLog(string(__FUNCTION__) + " was invoked");
 
@@ -49,9 +50,9 @@ SBomber::SBomber()
     vecStaticObj.push_back(pGr);
 
     std::shared_ptr<Tree> pTree(new Tree);
-    pTree->SetWidth(13);
-    pTree->SetPos(25, groundY - 1);
-    vecDynamicObj.push_back(pTree);
+    pTree->SetWidth(5);
+    pTree->SetPos(12, groundY - 7);
+    vecStaticObj.push_back(pTree);
 
     shared_ptr<Tank> pTank(new Tank);
     pTank->SetWidth(13);
@@ -77,25 +78,6 @@ SBomber::SBomber()
     pBomb->SetSize(SMALL_CRATER_SIZE);
     vecDynamicObj.push_back(pBomb);
     */
-}
-
-SBomber::~SBomber()
-{
-    //for (size_t i = 0; i < vecDynamicObj.size(); i++)
-    //{
-    //    if (vecDynamicObj[i] != nullptr)
-    //    {
-    //        delete vecDynamicObj[i];
-    //    }
-    //}
-
-    //for (size_t i = 0; i < vecStaticObj.size(); i++)
-    //{
-    //    if (vecStaticObj[i] != nullptr)
-    //    {
-    //        delete vecStaticObj[i];
-    //    }
-    //}
 }
 
 void SBomber::MoveObjects()
@@ -192,6 +174,7 @@ vector<shared_ptr<DestroyableGroundObject>> SBomber::FindDestoyableGroundObjects
     vector<shared_ptr<DestroyableGroundObject>> vec;
     shared_ptr<Tank> pTank;
     shared_ptr<House> pHouse;
+    shared_ptr<Tree> pTree;
     for (size_t i = 0; i < vecStaticObj.size(); i++)
     {
         pTank = dynamic_pointer_cast<Tank>(vecStaticObj[i]);
@@ -205,6 +188,13 @@ vector<shared_ptr<DestroyableGroundObject>> SBomber::FindDestoyableGroundObjects
         if (pHouse != nullptr)
         {
             vec.push_back(pHouse);
+            continue;
+        }
+
+        pTree = dynamic_pointer_cast<Tree>(vecStaticObj[i]);
+        if (pTree != nullptr)
+        {
+            vec.push_back(pTree);
             continue;
         }
     }
@@ -347,6 +337,20 @@ void SBomber::TimeFinish()
     finishTime = GetTickCount64();
     deltaTime = uint16_t(finishTime - startTime);
     passedTime += deltaTime;
+    stateTime += deltaTime;
+    if ((stateTime / 1000) > 3)
+    {
+        for (size_t i = 0; i < vecStaticObj.size(); i++)
+        {
+            shared_ptr<Tree> pTree = dynamic_pointer_cast<Tree>(vecStaticObj[i]);
+            if (pTree != nullptr)
+            {
+                pTree->SetState(pTree.get());
+
+            }
+        }
+        stateTime = 0;
+    }
 
 	FileLoggerSingleton::getInstance().WriteToLog(string(__FUNCTION__) + " deltaTime = ", (int)deltaTime);
 }

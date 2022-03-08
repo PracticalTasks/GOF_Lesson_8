@@ -14,7 +14,6 @@ class SBomber
 {
 public:
     SBomber();
-    ~SBomber();
     
     bool GetExitFlag() const { return exitFlag; }
 
@@ -39,6 +38,7 @@ private:
     uint16_t deltaTime;
     uint16_t fps;
     int16_t score;
+    uint64_t stateTime;
 
     void CheckPlaneAndLevelGUI();
     void CheckBombsAndGround();

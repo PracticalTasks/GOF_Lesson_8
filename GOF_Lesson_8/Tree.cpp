@@ -3,49 +3,108 @@
 //Class Tree
 Tree::Tree()
 {
-	treeState = std::dynamic_pointer_cast<TreeState>(std::make_shared<SmallTree>());
+	treeState = new SmallTree(this);
 }
-void Tree::Move(uint16_t time)
+
+Tree::~Tree()
 {
-	treeState = treeState->Grow(time);
+	delete treeState;
+}
+void Tree::SetState(Tree* ptr)
+{
+	treeState = treeState->Grow(ptr);
 }
 
 void Tree::Draw() const
 {
-	MyTools::ScreenSingleton::getInstance().SetColor(MyTools::CC_LightBlue);
-	MyTools::ScreenSingleton::getInstance().GotoXY(x, y);
 	treeState->Draw();
 }
 
-//Class SmallTree
-std::shared_ptr<TreeState> SmallTree::Grow(uint16_t time)
+bool Tree::isInside(double x1, double x2) const
 {
-	return (std::make_shared<MiddleTree>());
+	const double XBeg = x + 2;
+	const double XEnd = x + width - 1;
+
+	if (x1 < XBeg && x2 > XEnd)
+	{
+		return true;
+	}
+
+	if (x1 > XBeg && x1 < XEnd)
+	{
+		return true;
+	}
+
+	if (x2 > XBeg && x2 < XEnd)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+//Class SmallTree
+TreeState *SmallTree::Grow(Tree* ptr)
+{
+	pTree = ptr;
+	return (new MiddleTree(ptr));
 }
 
 void SmallTree::Draw() const
 {
-	std::cout << "SmallTree";
+	MyTools::ScreenSingleton::getInstance().SetColor(MyTools::CC_LightGreen);
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 4);
+	std::cout << "  ^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 5);
+	std::cout << " ^^^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 6);
+	std::cout << "^^^^^";
 }
 
 //class MiddleTree
-std::shared_ptr<TreeState> MiddleTree::Grow(uint16_t time)
+TreeState *MiddleTree::Grow(Tree* ptr)
 {
-	return (std::make_shared<BigTree>());
+	pTree = ptr;
+	return (new BigTree(ptr));
 }
 
 void MiddleTree::Draw() const
 {
-
+	MyTools::ScreenSingleton::getInstance().SetColor(MyTools::CC_LightGreen);
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 2);
+	std::cout << "    ^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 3);
+	std::cout << "   ^^^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 4);
+	std::cout << "  ^^^^^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 5);
+	std::cout << " ^^^^^^^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 6);
+	std::cout << "^^^^^^^^^";
 }
 
 //class BigTree
-std::shared_ptr<TreeState> BigTree::Grow(uint16_t time)
+TreeState *BigTree::Grow(Tree* ptr)
 {
-	return (std::make_shared<BigTree>());
+	pTree = ptr;
+	return (new BigTree(ptr));
 }
 
 void BigTree::Draw() const
 {
-
+	MyTools::ScreenSingleton::getInstance().SetColor(MyTools::CC_LightGreen);
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY());
+	std::cout << "      ^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 1);
+	std::cout << "     ^^^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 2);
+	std::cout << "    ^^^^^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 3);
+	std::cout << "   ^^^^^^^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 4);
+	std::cout << "  ^^^^^^^^^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 5);
+	std::cout << " ^^^^^^^^^^^";
+	MyTools::ScreenSingleton::getInstance().GotoXY(pTree->GetX(), pTree->GetY() + 6);
+	std::cout << "^^^^^^^^^^^^^";
 }
